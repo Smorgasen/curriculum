@@ -109,32 +109,21 @@ Back in the index page, add the following anchor element to create a link to the
   <h1>Homepage</h1>
   <a href="https://www.theodinproject.com/about">About The Odin Project</a>
 
-  <a href="about.html">About</a>
+  <a href="./about.html">About</a>
 </body>
 ```
 
 Open the index file in a browser and click on the about link to make sure it is all wired together correctly. Clicking the link should go to the about page we just created.
 
-This works because the index and about page are in the same directory. That means we can use its name (`about.html`) as the link's `href` value.
+This works because the index and about page are in the same directory. The `./` at the start means "the current directory", so the path basically translates to "in the current directory, go to `about.html`".
 
-But we will usually want to organize our website directories a little better. Normally we would only have the `index.html` at the root directory and all other HTML files in their own directory.
+We would usually want to organize our website directories a little better, however. Normally, we would only have the `index.html` at the root directory and all other HTML files in their own directory.
 
 Create a directory named `pages` within the `odin-links-and-images` directory and move the `about.html` file into this new directory.
 
-Refresh the index page in the browser and then click on the about link. It will now be broken. This is because the location of the about page file has changed.
+Refresh the index page in the browser and then click on the about link. It will now be broken. This is because the location of the about page file has changed; now when the link looks "in the current directory for `about.html`", it finds nothing.
 
-To fix this, we just need to update the about link `href` value to include the `pages/` directory since that is the new location of the about file *relative* to the index file.
-
-```html
-<body>
-  <h1>Homepage</h1>
-  <a href="pages/about.html">About</a>
-</body>
-```
-
-Refresh the index page in the browser and try clicking the about link again, it should now be back in working order.
-
-In many cases, this will work just fine; however, you can still run into unexpected issues with this approach. Prepending `./` before the link will in most cases prevent such issues. By adding  `./` you are specifying to your code that it should start looking for the file/directory *relative* to the `current` directory.
+To fix this, we just need to update the about link `href` value to include the `pages` directory since that is now the new location of the `about.html` file *relative* to the `index.html` file.
 
 ```html
 <body>
@@ -142,6 +131,25 @@ In many cases, this will work just fine; however, you can still run into unexpec
   <a href="./pages/about.html">About</a>
 </body>
 ```
+
+Refresh the index page in the browser and try clicking the about link again, it should now be back in working order.
+
+<div class="lesson-note" markdown="1">
+
+#### Relative links with and without ./
+
+For relative paths starting in the current directory, in some cases you don't actually need to include the `./` at the start. HTML links are one such example. The following two links will both work the same way, as the missing `./` in the second one is implicitly added:
+
+```html
+<a href="./pages/about.html">About</a>
+<a href="pages/about.html">About</a>
+```
+
+There are other things that also allow you to omit `./` when using a relative path starting from the current directory. However, not everything works this way. For some things, such as JavaScript modules (which you'll encounter later in the curriculum), if you want to use a relative path starting from the current directory, you *must* include the leading `./` (so something like `a/b` and `./a/b` would *not* be treated the same way).
+
+So while you can technically omit the starting `./` in HTML just fine, and you will invariably see this done in the wild sometimes, you may personally wish to just always lead with `./` if starting from the current directory. That way, you don't get caught out when dealing with something that actually requires them.
+
+</div>
 
 #### A metaphor
 
@@ -171,19 +179,13 @@ For example, using an absolute path we can display an image located on The Odin 
 
 To display images on your website that are hosted on your own web server, you can use a relative path.
 
-<details markdown="block">
-
-<summary class="dropDown-header">Linux, macOS, ChromeOS</summary>
+#### Linux, macOS, ChromeOS
 
 1. Create a new directory named `images` within the `odin-links-and-images` project.
 1. Next, [download our practice image](https://unsplash.com/photos/Mv9hjnEUHR4/download?force=true&w=640) and move it into the images directory we just created.
 1. Rename the image to `dog.jpg`.
 
-</details>
-
-<details markdown="block">
-
-<summary class="dropDown-header">WSL2</summary>
+#### WSL2
 
 When you download a file from the internet, Windows has a security feature that creates a hidden `Zone.Identifier` file with the same name as your downloaded file and it looks like `mypicture.jpg:Zone.Identifier` This file is harmless, but we'd like to avoid copying it over and cluttering up our directories.
 
@@ -193,7 +195,7 @@ When you download a file from the internet, Windows has a security feature that 
 
 1. Right click on the new download at the bottom of the chrome window and select "Show in folder".
 
-   1. Alternatively, if you do not see anything at the bottom of the chrome window, open the "Customize and control Google Chrome kebab menu and select the "Downloads" item. This will show all of your downloads, each with its own "Show in folder" button.
+   1. Alternatively, if you do not see anything at the bottom of the chrome window, open the "Customize and control Google Chrome" kebab menu and select the "Downloads" item. This will show all of your downloads, each with its own "Show in folder" button.
 
 1. Rename the image to `dog.jpg`.
 
@@ -215,7 +217,7 @@ When you download a file from the internet, Windows has a security feature that 
 
 Dragging files from Windows into the VSCode file browser prevents the `Zone.Identifier` files from being copied over. From now on, any time you need to copy pictures or other downloaded files like this into WSL2, you can do it in this way. If you ever accidentally copy these `Zone.Identifier` files into WSL2, you can safely delete them without any issue.
 
-</details>
+#### Adding an image to an HTML file
 
 Finally add the image to the `index.html` file:
 

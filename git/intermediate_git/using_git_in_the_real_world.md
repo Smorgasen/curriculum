@@ -24,11 +24,14 @@ Here is a visual representation of the workflow with Git and GitHub that illustr
 <pre class="mermaid">
 
 graph TD;
-    A[Upstream Repository: TheOdinProject/curriculum] -->|git fetch upstream/main| B[Local Repository: main];
-    B -->|git checkout your_branch_name| C[Local Repository: your_branch_name];
-    C -->|git push origin your_branch_name| D[Your Fork on GitHub];
-    D -->|Create Pull Request to Upstream| E[Pull Request on GitHub];
-    E -->|Maintainers Merge PR to Upstream| A[Upstream Repository: TheOdinProject/curriculum];
+    A[Upstream Repository: TheOdinProject/curriculum] -->|git fetch upstream| B[Local Repository: refs updated];
+    B -->|"`git checkout main
+            git merge upstream/main`"| C[Local Repository: main updated];
+    C -->|"`git checkout your_branch_name
+            git merge main`"| D[Local Repository: your_branch_name updated];
+    D -->|git push origin your_branch_name| E[Your Fork on GitHub];
+    E -->|Create Pull Request to Upstream| F[Pull Request on GitHub];
+    F -->|Maintainers Merge PR to Upstream| A[Upstream Repository: TheOdinProject/curriculum];
 
 </pre>
 
@@ -60,7 +63,7 @@ We've got one main branch -- `main`. `main` is for production-ready code. Any co
 1. Create a new feature branch for whatever feature you want to build, and add commits following the same practices that you learned about in the [branching section of our Revisiting Rock Paper Scissors lesson](https://www.theodinproject.com/lessons/foundations-revisiting-rock-paper-scissors#using-branches).
 1. When you're done with your feature, odds are that someone has made changes to the upstream repository in the meantime. That means that your `main` branch is probably out of date. Fetch the most updated copy using `git fetch upstream`.
 1. Now merge the upstream's changes into your local version of `main` using `git merge`. Specifically, you'll first want to make sure you're on your `main` branch using `git checkout main` and then `git merge upstream/main` to merge in those upstream changes that we just fetched.
-1. Now that your `main` branch is up-to-date with upstream, you need to merge it into your feature branch. Yes, that is correct and it seems odd at first. Don't you want to merge the feature branch into the `main` branch instead? Yes, you do, *but not yet*. **Your feature branch is dirty.** You don't know if it has any conflicts which might creep up. Any time you are merging in more "senior" branches (e.g. merging the feature into `main`), you want it to be a clean and conflict-free merge if possible. So you first merge the "senior" branch into your dirty branch to resolve those conflicts. Run `git checkout your_feature_name` to jump back onto your feature branch, then `git merge main` to merge `main` into it.
+1. Now that your `main` branch is up-to-date with upstream, you need to merge it into your feature branch. Yes, that is correct and it seems odd at first. Don't you want to merge the feature branch into the `main` branch instead? Yes, you do, *but not yet*. **Your feature branch is dirty.** You don't know if it has any conflicts which might creep up. Any time you are merging into more "senior" branches (e.g. merging the feature into `main`), you want it to be a clean and conflict-free merge if possible. So you first merge the "senior" branch into your dirty branch to resolve those conflicts. Run `git checkout your_feature_name` to jump back onto your feature branch, then `git merge main` to merge `main` into it.
 1. You may have merge conflicts... resolve those using the skills you learned in [the Working with Remotes lesson](https://www.theodinproject.com/lessons/javascript-working-with-remotes)!
 
 <div class="lesson-note" markdown="1">
